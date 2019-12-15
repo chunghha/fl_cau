@@ -9,7 +9,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MobX',
+      debugShowCheckedModeBanner: false,
+      title: 'MobX State Management',
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),

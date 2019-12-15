@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:fl_cau/store/counter.dart'; // Import the Counter
+import 'package:flutter_mobx/flutter_mobx.dart';
+
+import 'package:fl_cau/pages/news_page.dart';
+import 'package:fl_cau/store/counter.dart';
 
 final counter = Counter(); // Instantiate the store
 
@@ -19,6 +21,17 @@ class CounterPage extends StatelessWidget {
             textStyle: TextStyle(fontWeight: FontWeight.w700),
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            color: Colors.tealAccent,
+            icon: Icon(Icons.navigate_next),
+            iconSize: 36.0,
+            onPressed: () {
+              Route route = MaterialPageRoute(builder: (context) => NewsPage());
+              Navigator.push(context, route);
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
