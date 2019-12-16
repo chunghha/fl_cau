@@ -51,9 +51,13 @@ abstract class HackerNewsBase with Store {
 
 Future<NewsList> fetchNewsList() async {
   final response = await newsService.getNewsList();
-  print('News IDs List => ${response.body}');
 
-  return NewsList.fromJson(response.body);
+  if (response.statusCode == 200) {
+    print('News IDs List => ${response.body}');
+    return NewsList.fromJson(response.body);
+  } else {
+    throw Exception('Failed to load a list of news: ${response.error}');
+  }
 }
 
 Future<List<News>> getNews(List newsIdList, int indexRange) async {
@@ -69,7 +73,11 @@ Future<List<News>> getNews(List newsIdList, int indexRange) async {
 
 Future<News> fetchNews(int newsId) async {
   final response = await newsService.getNews(newsId);
-  print('News ID DETAILS => ${response.body}');
 
-  return News.fromJson(response.body);
+  if (response.statusCode == 200) {
+    print('News ID DETAILS => ${response.body}');
+    return News.fromJson(response.body);
+  } else {
+    throw Exception('Failed to load news of $newsId: ${response.error}');
+  }
 }
