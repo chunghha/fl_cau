@@ -1,16 +1,32 @@
 # fl_cau
 
-A new Flutter project.
+A sample Flutter project to demonstrate state management with **mobX**.
 
-## Getting Started
+Following stores are provided in the lib/store folder which are generated with **mobx_codegen**.
+- $Counter: counter.g.dart
+- $HackerNews: hacker_news.g.dart
 
-This project is a starting point for a Flutter application.
+Also, instead of **http** package, **chopper** is used to call the hacker news api. Check out for the generated NewsService with **chopper_generator.**
 
-A few resources to get you started if this is your first Flutter project:
+- $NewsService: news_service.chopper.dart
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Get Started
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To run, git clone this project first, then
+
+(From the command line)
+> - $ cd fl_cau
+> - $ flutter packages get
+> - $ flutter packages pub run build_runner build
+
+(For the ios simulator)
+> - $ flutter emulators --launch apple_ios_simulator
+> - $ flutter run -d iPhone
+
+## Screenshots
+
+| Counter                               | Hacker News                           |
+| ------------------------------------- | ------------------------------------- |
+| ![Counter](./screenshots/counter.png) | ![HackerNews](./screenshots/news.png) |
+
+
