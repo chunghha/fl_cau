@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:supercharged/supercharged.dart';
 
 import 'package:fl_cau/news/news.dart';
 import 'package:fl_cau/store/hacker_news.dart';
@@ -36,6 +37,7 @@ class NewsState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          backgroundColor: '#233555'.toColor(),
           title: Text(
             'Hacker News',
             style: GoogleFonts.caveat(
