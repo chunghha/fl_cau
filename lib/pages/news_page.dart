@@ -16,10 +16,10 @@ class NewsPage extends StatefulWidget {
 }
 
 class NewsState extends State<NewsPage> {
-  final _hacker_news = HackerNews();
+  final hackerNews = HackerNews();
   final snackBar = SnackBar(
     content: Text('News List will be update in sometime..',
-        style: GoogleFonts.girassol(fontSize: 24.0)),
+        style: GoogleFonts.girassol(fontSize: 18.0)),
     action: SnackBarAction(
       label: 'Ok',
       onPressed: () {
@@ -31,7 +31,7 @@ class NewsState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    _hacker_news.getNewsList();
+    hackerNews.getNewsList();
   }
 
   @override
@@ -49,17 +49,17 @@ class NewsState extends State<NewsPage> {
           builder: (context) => RefreshIndicator(
             onRefresh: () async {
               await Future.delayed(Duration(seconds: 1));
-              await _hacker_news.increaseNewsLimit();
+              await hackerNews.increaseNewsLimit();
               Scaffold.of(context).showSnackBar(snackBar);
             },
             child: Container(
               child: Observer(
-                  builder: (_) => ((_hacker_news.news != null) &&
-                          (_hacker_news.news.isNotEmpty))
+                  builder: (_) => ((hackerNews.news != null) &&
+                          (hackerNews.news.isNotEmpty))
                       ? ListView.builder(
-                          itemCount: _hacker_news.news.length,
+                          itemCount: hackerNews.news.length,
                           itemBuilder: (_, index) {
-                            final newsAritcle = _hacker_news.news[index];
+                            final newsAritcle = hackerNews.news[index];
                             return _makeArticleContainer(newsAritcle);
                           },
                         )
