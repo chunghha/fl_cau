@@ -1,13 +1,18 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:chopper/chopper.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:fl_cau/news/news.dart';
 import 'package:fl_cau/news/news_list.dart';
 import 'package:fl_cau/news/news_endpoints.dart';
+import 'package:fl_cau/news/news_service.dart';
 
 part 'hacker_news.g.dart';
+
+final newsService = NewsService.create(ChopperClient(
+  baseUrl: NewsEndpoints.newsBaseUrl,
+  services: [NewsService.create()],
+  converter: JsonConverter(),
+));
 
 const _limits = 7;
 
@@ -45,17 +50,10 @@ abstract class HackerNewsBase with Store {
 }
 
 Future<NewsList> fetchNewsList() async {
-  final response = await http.get(NewsEndpoints.newsListUrl);
+  final response = await newsService.getNewsList();
+  print('News IDs List => ${response.body}');
 
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON
-    var parsedJson = json.decode(response.body);
-    print('News IDs List => ${parsedJson.toString()}');
-    return NewsList.fromJson(parsedJson);
-  } else {
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load post');
-  }
+  return NewsList.fromJson(response.body);
 }
 
 Future<List<News>> getNews(List newsIdList, int indexRange) async {
@@ -70,17 +68,8 @@ Future<List<News>> getNews(List newsIdList, int indexRange) async {
 }
 
 Future<News> fetchNews(int newsId) async {
-  String url = NewsEndpoints.newsUrl(newsId);
-  print(url);
-  final response = await http.get(url);
+  final response = await newsService.getNews(newsId);
+  print('News ID DETAILS => ${response.body}');
 
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON
-    var parsedJson = json.decode(response.body);
-    print('News ID DETAILS => ${parsedJson.toString()}');
-    return News.fromJson(parsedJson);
-  } else {
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load post for Id $newsId');
-  }
+  return News.fromJson(response.body);
 }
