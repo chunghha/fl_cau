@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 
 import 'package:fl_cau/news/news.dart';
@@ -16,9 +17,6 @@ class NewsPage extends StatefulWidget {
 }
 
 class NewsState extends State<NewsPage> {
-  // TOOD: see later if this can be from Provider
-  final hackerNews = HackerNews();
-  
   final snackBar = SnackBar(
     content: Text('News List will be update in sometime..',
         style: GoogleFonts.girassol(fontSize: 18.0)),
@@ -33,44 +31,49 @@ class NewsState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    hackerNews.getNewsList();
+    Provider.of<HackerNews>(context, listen: false).getNewsList();
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: '#233555'.toColor(),
-          title: Text(
-            'Hacker News',
-            style: GoogleFonts.caveat(
-              textStyle: TextStyle(fontWeight: FontWeight.w700),
-            ),
+  Widget build(BuildContext context) {
+    final hackerNews = Provider.of<HackerNews>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: '#233555'.toColor(),
+        title: Text(
+          'Hacker News',
+          style: GoogleFonts.caveat(
+            textStyle: TextStyle(fontWeight: FontWeight.w700),
           ),
         ),
-        body: Observer(
-          builder: (context) => RefreshIndicator(
-            onRefresh: () async {
-              await Future.delayed(Duration(seconds: 1));
-              await hackerNews.increaseNewsLimit();
-            },
-            child: Container(
-              child: Observer(
-                  builder: (_) => ((hackerNews.news != null) &&
-                          (hackerNews.news.isNotEmpty))
-                      ? ListView.builder(
-                          itemCount: hackerNews.news.length,
-                          itemBuilder: (_, index) {
-                            final newsAritcle = hackerNews.news[index];
-                            return _makeArticleContainer(newsAritcle);
-                          },
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(),
-                        )),
-            ),
+      ),
+      body: Observer(
+        builder: (context) => RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 1));
+            await hackerNews.increaseNewsLimit();
+            Scaffold.of(context).showSnackBar(snackBar);
+          },
+          child: Container(
+            child: Observer(
+                builder: (_) =>
+                    ((hackerNews.news != null) && (hackerNews.news.isNotEmpty))
+                        ? ListView.builder(
+                            itemCount: hackerNews.news.length,
+                            itemBuilder: (_, index) {
+                              final newsAritcle = hackerNews.news[index];
+                              return _makeArticleContainer(newsAritcle);
+                            },
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(),
+                          )),
           ),
         ),
-      );
+      ),
+    );
+  }
 
   Widget _makeArticleContainer(News newsArticle) {
     return Padding(
