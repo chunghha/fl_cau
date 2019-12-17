@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fl_cau/pages/counter_page.dart';
@@ -31,8 +32,17 @@ class MyApp extends StatelessWidget {
           home: Consumer<Counter>(builder: (context, counter, _) {
             return CounterPage();
           }),
-          routes: {
-            '/news': (_) => NewsPage(),
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case '/news':
+                return PageTransition(
+                    child: NewsPage(),
+                    duration: Duration(milliseconds: 500),
+                    type: PageTransitionType.rightToLeftWithFade);
+                break;
+              default:
+                return null;
+            }
           },
         ));
   }
