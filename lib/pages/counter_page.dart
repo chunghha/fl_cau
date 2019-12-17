@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
-import 'package:fl_cau/pages/news_page.dart';
 import 'package:fl_cau/store/counter.dart';
 
-final counter = Counter(); // Instantiate the store
-
 class CounterPage extends StatelessWidget {
-  const CounterPage();
-
   @override
   Widget build(BuildContext context) {
+    final counter = Provider.of<Counter>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -27,8 +25,7 @@ class CounterPage extends StatelessWidget {
             icon: Icon(Icons.navigate_next),
             iconSize: 36.0,
             onPressed: () {
-              Route route = MaterialPageRoute(builder: (context) => NewsPage());
-              Navigator.push(context, route);
+              Navigator.pushNamed(context, '/news');
             },
           ),
         ],

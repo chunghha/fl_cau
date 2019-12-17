@@ -16,7 +16,9 @@ class NewsPage extends StatefulWidget {
 }
 
 class NewsState extends State<NewsPage> {
+  // TOOD: see later if this can be from Provider
   final hackerNews = HackerNews();
+  
   final snackBar = SnackBar(
     content: Text('News List will be update in sometime..',
         style: GoogleFonts.girassol(fontSize: 18.0)),
@@ -50,7 +52,6 @@ class NewsState extends State<NewsPage> {
             onRefresh: () async {
               await Future.delayed(Duration(seconds: 1));
               await hackerNews.increaseNewsLimit();
-              Scaffold.of(context).showSnackBar(snackBar);
             },
             child: Container(
               child: Observer(

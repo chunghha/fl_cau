@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,6 +27,7 @@ dependencies:
   chopper: ^3.0.1+1
   mobx: ^0.3.9+3
   flutter_mobx: ^0.3.3+3
+  provider: ^3.2.0
   url_launcher: ^5.4.1
   supercharged: ^1.0.0
   

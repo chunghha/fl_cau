@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:fl_cau/pages/counter_page.dart';
+import 'package:fl_cau/pages/news_page.dart';
+import 'package:fl_cau/store/counter.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +18,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const CounterPage(),
+      home: Provider<Counter>(
+        create: (_) => Counter(),
+        child: CounterPage(),
+      ),
+      routes: {
+        '/news': (_) => NewsPage(),
+      },
     );
   }
 }
