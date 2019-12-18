@@ -31,49 +31,49 @@ class NewsState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<HackerNews>(context, listen: false).getNewsList();
+
+    final hackerNews = Provider.of<HackerNews>(context, listen: false);
+    if (hackerNews.newsList.length == 0) {
+      hackerNews.getNewsList();
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final hackerNews = Provider.of<HackerNews>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: '#233555'.toColor(),
-        title: Text(
-          'Hacker News',
-          style: GoogleFonts.caveat(
-            textStyle: TextStyle(fontWeight: FontWeight.w700),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: '#233555'.toColor(),
+          title: Text(
+            'Hacker News',
+            style: GoogleFonts.caveat(
+              textStyle: TextStyle(fontWeight: FontWeight.w700),
+            ),
           ),
         ),
-      ),
-      body: Observer(
-        builder: (context) => RefreshIndicator(
-          onRefresh: () async {
-            await Future.delayed(Duration(seconds: 1));
-            await hackerNews.increaseNewsLimit();
-            Scaffold.of(context).showSnackBar(snackBar);
-          },
-          child: Container(
-            child: Observer(
-                builder: (_) =>
-                    ((hackerNews.news != null) && (hackerNews.news.isNotEmpty))
-                        ? ListView.builder(
-                            itemCount: hackerNews.news.length,
-                            itemBuilder: (_, index) {
-                              final newsAritcle = hackerNews.news[index];
-                              return _makeArticleContainer(newsAritcle);
-                            },
-                          )
-                        : Center(
-                            child: CircularProgressIndicator(),
-                          )),
+        body: Consumer<HackerNews>(
+          builder: (context, hackerNews, _) => RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(Duration(seconds: 1));
+              await hackerNews.increaseNewsLimit();
+              Scaffold.of(context).showSnackBar(snackBar);
+            },
+            child: Container(
+              child: Observer(
+                  builder: (_) => ((hackerNews.news != null) &&
+                          (hackerNews.news.isNotEmpty))
+                      ? ListView.builder(
+                          itemCount: hackerNews.news.length,
+                          itemBuilder: (_, index) {
+                            final newsAritcle = hackerNews.news[index];
+                            return _makeArticleContainer(newsAritcle);
+                          },
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(),
+                        )),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   Widget _makeArticleContainer(News newsArticle) {
     return Padding(
