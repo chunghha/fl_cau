@@ -19,7 +19,7 @@ class NewsPage extends StatefulWidget {
 class NewsState extends State<NewsPage> {
   final snackBar = SnackBar(
     content: Text('News List will be update in sometime..',
-        style: GoogleFonts.girassol(fontSize: 18.0)),
+        style: GoogleFonts.googleSans(fontSize: 18.0)),
     action: SnackBarAction(
       label: 'Ok',
       onPressed: () {

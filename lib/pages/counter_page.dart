@@ -36,7 +36,7 @@ class CounterPage extends StatelessWidget {
           children: <Widget>[
             Text(
               'Counter Number in the state:',
-              style: GoogleFonts.girassol(fontSize: 24.0),
+              style: GoogleFonts.googleSans(fontSize: 24.0),
             ),
             // Wrapping in the Observer will automatically re-render on changes to counter.value
             Observer(
